@@ -6,7 +6,7 @@ jobs:
     strategy:
       matrix:
         servers: [ubuntu-latest, macos-latest]
-        python-version: ['3.8']  # 指定要测试的 Python 版本
+        python-version: ["3.8.10"]
     runs-on: ${{matrix.servers}}
     steps:
       - name: Checkout repo
@@ -14,6 +14,12 @@ jobs:
           rm -rf ${{github.event.repository.name}}
           git clone https://${{github.repository_owner}}:${{github.token}}@github.com/${{github.repository}}
           git -C "${{github.workspace}}/${{github.event.repository.name}}" checkout ${{github.ref}}
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Display Python version
+        run: python -c "import sys; print(sys.version)"
       - name: Python unittest
         run: |
           python3 -m venv venv
