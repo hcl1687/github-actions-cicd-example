@@ -5,7 +5,7 @@ jobs:
   ci:
     strategy:
       matrix:
-        servers: [ubuntu-latest, macos-latest]
+        servers: [ubuntu-latest, macos-latest, cloudcone]
         python-version: ["3.8"]
     runs-on: ${{matrix.servers}}
     steps:
