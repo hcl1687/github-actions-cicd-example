@@ -5,9 +5,10 @@ jobs:
   ci:
     strategy:
       matrix:
-        servers: [ubuntu-latest, macos-latest]
+        servers: [ubuntu-latest, macos-latest, self-hosted]
         python-version: ["3.8"]
-    runs-on: self-hosted
+      fail-fast: false
+    runs-on: ${{matrix.servers}}
     steps:
       - name: Checkout repo
         run: |
@@ -22,12 +23,12 @@ jobs:
         run: python -c "import sys; print(sys.version)"
       - name: Python unittest
         run: |
-          python3 -m venv venv
+          python -m venv venv
           source venv/bin/activate
           cd ${{github.event.repository.name}}
-          pip3 install -r requirements.txt
+          pip install -r requirements.txt
           pre-commit run -a
-          python3 -m unittest discover -v
+          python -m unittest discover -v
       - name: Cleanup
         run: |
           rm -rf venv
