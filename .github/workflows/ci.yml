@@ -5,9 +5,9 @@ jobs:
   ci:
     strategy:
       matrix:
-        servers: [ubuntu-latest, macos-latest, cloudcone]
+        servers: [ubuntu-latest, macos-latest]
         python-version: ["3.8"]
-    runs-on: ${{matrix.servers}}
+    runs-on: self-hosted
     steps:
       - name: Checkout repo
         run: |
